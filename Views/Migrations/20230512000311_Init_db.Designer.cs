@@ -11,7 +11,7 @@ using Views.Contexts;
 
 namespace Views.Migrations
 {
-    [DbContext(typeof(DataContext))]
+    [DbContext(typeof(IdentityContext))]
     [Migration("20230512000311_Init_db")]
     partial class Init_db
     {

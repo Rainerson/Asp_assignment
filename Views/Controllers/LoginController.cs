@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Views.Contexts;
 using Views.Models.Entities;
+using Views.Models.Identity;
+using Views.Services;
 using Views.ViewModels;
 
 namespace Views.Controllers
@@ -9,15 +11,20 @@ namespace Views.Controllers
     public class LoginController : Controller
     {
 
-        private readonly DataContext _context;
+        private readonly IdentityContext _context;
+        private readonly AuthenticationService _auth;
 
-        public LoginController(DataContext context)
+        public LoginController(IdentityContext context, AuthenticationService auth)
         {
             _context = context;
+            _auth = auth;
         }
 
-        public IActionResult Index()
+
+        public IActionResult Index(string ReturnUrl = null!)
         {
+            var loginViewModel = new LoginViewModel();
+            if(ReturnUrl !=null) { loginViewModel.ReturnUrl = ReturnUrl; }
             return View();
         }
 
@@ -26,75 +33,82 @@ namespace Views.Controllers
             return View();
         }
 
-        public IActionResult AccountPage()
-        {
-            return View();
-        }
 
-        //Egentligen ska vi ha en Service som hanterar databas-sökningar osv och inte göra det här. se föreläsning 4, från 2h30min
+        /*        [HttpPost]
+                public async Task<IActionResult> Register(RegisterViewModel2 registerViewModel)
+                {
+                    if (ModelState.IsValid)
+                    {
+
+                        try
+                        {
+                            if (!await _context.Users.AnyAsync(x => x.Email == registerViewModel.Email))
+                            {
+                                AppUser appUser = registerViewModel;
+                                ProfileData profileData = registerViewModel;
+
+
+                                _context.Users.Add(appUser);
+                                await _context.SaveChangesAsync();
+
+                                profileData.IdentityUser = appUser.Id;
+
+                                _context.Profiles.Add(profileData);
+                                await _context.SaveChangesAsync();
+
+                                return RedirectToAction("Index", "Home");
+                            }
+                            else
+                            {
+                                ModelState.AddModelError("", "Email already in use");
+                            }
+
+
+                        }
+                        catch
+                        {
+                            ModelState.AddModelError("", "Something went wrong");
+                        }
+                    }
+                    return View(registerViewModel);
+                }*/
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
+        public async Task<IActionResult> Register(RegisterViewModel2 registerViewModel)
         {
-            if (ModelState.IsValid)
             {
-
-                try
+                if (ModelState.IsValid)
                 {
-                    if (!await _context.Users.AnyAsync(x => x.Email == registerViewModel.Email))
+                    if (await _auth.UserAlreadyExistsAsync(registerViewModel))
                     {
-                        UserEntity userEntity = registerViewModel;
-                        ProfileEntity profileEntity = registerViewModel;
-
-
-                        _context.Users.Add(userEntity);
-                        await _context.SaveChangesAsync();
-
-                        profileEntity.UserId = userEntity.Id;
-
-                        _context.Profiles.Add(profileEntity);
-                        await _context.SaveChangesAsync();
-
-                        return RedirectToAction("Index", "Home");
-                    } else
+                        ModelState.AddModelError("", "There already exists a user with this email");
+                    }
+                    if (await _auth.RegisterUserAsync(registerViewModel))
                     {
-                        ModelState.AddModelError("", "Email already in use");
+                        return RedirectToAction("Index", "Login");
                     }
 
+                }
 
-                }
-                catch
-                {
-                    ModelState.AddModelError("", "Something went wrong");
-                }
+                return View(registerViewModel);
+
             }
-            return View(registerViewModel);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Index(LoginViewModel loginViewModel)
         {
+
             if (ModelState.IsValid)
             {
-                var userEntity = await _context.Users.FirstOrDefaultAsync(x => x.Email == loginViewModel.Email);
-                if(userEntity != null)
+                if (await _auth.LoginAsync(loginViewModel))
                 {
-                    if(userEntity.VerifySecurePassword(loginViewModel.Password))
-                    {
-                       return RedirectToAction("AccountPage", "Login");
-                    }
+                    return LocalRedirect(loginViewModel.ReturnUrl);
                 }
+                ModelState.AddModelError("", "Incorrect email or password");
+            }
 
-            ModelState.AddModelError("", "Wrong email och password");
-            } 
             return View(loginViewModel);
         }
-
-
-
-
-
-
-    }
+    } 
 }

@@ -1,7 +1,7 @@
-﻿@model RegisterViewModel
+﻿@model RegisterViewModel2
 <div class="d-flex justify-content-center ">
     <div class="col-6 mt-5">
-        <form asp-action="Register" method="post" novalidate>
+        <form asp-action="Register" method="post" enctype="multipart/form-data" novalidate>
 
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -56,8 +56,17 @@
                 <small><span asp-validation-for="ConfirmPassword" class="text-danger"></span></small>
             </div>
             <div class="mb-3">
-                <label asp-for="Image" class="form-label"></label>
-                <input asp-for="Image" class="form-control" />
+                <label asp-for="ImageFile" class="form-label"></label>
+                <input asp-for="ImageFile" class="form-control" />
+            </div>
+
+            <div class="form-checkbox-group">
+                <label class"="custom-checkbox">
+                    <label asp-for="TermsAndAgreement"></label>
+                    <input asp-for="TermsAndAgreement" />
+                    <span class="checkmark"></span>
+                    <span asp-validation-for="TermsAndAgreement" class="text-danger"></span>
+                </label>
             </div>
             <button type="submit">Register</button>
         </form>

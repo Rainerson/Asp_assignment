@@ -3,6 +3,7 @@
 
 <div class="d-flex justify-content-center">
     <div class="login col-6">
+        @*<form asp-action="Index" method="post" novalidate asp-route-ReturnUrl ="@Model.ReturnUrl">*@
         <form asp-action="Index" method="post" novalidate>
 
 
@@ -17,6 +18,14 @@
                 <label asp-for="Password" class="form-label"></label>
                 <input asp-for="Password" class="form-control" />
                 <small><span asp-validation-for="Password" class="text-danger"></span></small>
+            </div>
+
+            <div class="form-checkbox-group">
+                <label class"="custom-checkbox">
+                <label asp-for="KeepLoggedIn"></label>
+                <input asp-for="KeepLoggedIn" />
+                <span class="checkmark"></span>
+                </label>
             </div>
 
             <button type="submit">Log In</button>

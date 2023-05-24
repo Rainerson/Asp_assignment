@@ -13,5 +13,11 @@ namespace Views.ViewModels
         [Display(Name = "Password")]
         [DataType(DataType.Password)]
         public string Password { get; set; } = null!;
+
+        [Display(Name = "Keep me logged in")]
+        public bool KeepLoggedIn { get; set; } = false;
+
+        public string ReturnUrl { get; set; } = "/";
+
     }
 }

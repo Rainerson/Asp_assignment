@@ -7,11 +7,11 @@ namespace Views.ViewModels
     {
 
         [Display(Name = "Product name")]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
 
         [Display(Name = "Description")]
-        public string Description { get; set; }
+        public string Description { get; set; } = null!;
 
 
         [Display(Name = "Price")]

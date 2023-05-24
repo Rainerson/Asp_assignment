@@ -8,9 +8,9 @@ namespace Views.Services
 {
     public class ProductService
     {
-        private readonly DataContext _context;
+        private readonly IdentityContext _context;
 
-        public ProductService(DataContext context)
+        public ProductService(IdentityContext context)
         {
             _context = context;
         }
@@ -25,12 +25,11 @@ namespace Views.Services
                 await _context.SaveChangesAsync();
 
                 return true;
-            } catch
+            }
+            catch
             {
                 return false;
             }
-            
-
         }
 
         public async Task<IEnumerable<ProductModel>> GetAllAsync()
@@ -44,6 +43,6 @@ namespace Views.Services
             }
 
             return products;
-;        }
+        }
     }
 }
