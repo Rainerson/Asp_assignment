@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Views.Contexts;
 
@@ -11,9 +12,11 @@ using Views.Contexts;
 namespace Views.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230525220706_Productcategoriesupdate")]
+    partial class Productcategoriesupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -169,7 +172,7 @@ namespace Views.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.ToTable("ProductCategories");
                 });
 
             modelBuilder.Entity("Views.Models.Entities.ProductEntity", b =>
@@ -211,7 +214,7 @@ namespace Views.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("ProductsCategory");
+                    b.ToTable("ProductCategoriesMiddle");
                 });
 
             modelBuilder.Entity("Views.Models.Identity.AppUser", b =>

@@ -26,10 +26,20 @@
                 <input asp-for="Price" class="form-control" />
                 <small><span asp-validation-for="Price" class="text-danger"></span></small>
             </div>
-            <div class="mb-3">
+            <div class="mb-4">
                 <label asp-for="Rating" class="form-label"></label>
                 <input asp-for="Rating" class="form-control" />
                 <small><span asp-validation-for="Rating" class="text-danger"></span></small>
+            </div>
+
+            <div class="mb-4">
+                @foreach(SelectListItem category in ViewBag.Categories)
+                {
+                    <div class="mb-2">
+                        <label for="@category.Text-@category.Value" class="form-check-label">@category.Text</label>
+                        <input type="checkbox" name="Categories" id="@category.Text-@category.Value" value="@category.Value" checker="@category.Selected" class="form-check-input" />
+                    </div>
+                }
             </div>
 
             <button type="submit">Save</button>

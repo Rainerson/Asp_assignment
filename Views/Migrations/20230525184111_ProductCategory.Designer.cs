@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Views.Contexts;
 
@@ -11,9 +12,11 @@ using Views.Contexts;
 namespace Views.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230525184111_ProductCategory")]
+    partial class ProductCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,7 +158,7 @@ namespace Views.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Views.Models.Entities.Category", b =>
+            modelBuilder.Entity("Views.Models.Entities.ProductCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -169,7 +172,22 @@ namespace Views.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.ToTable("ProductCategories");
+                });
+
+            modelBuilder.Entity("Views.Models.Entities.ProductCategoryMiddle", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("ProductCategoriesMiddle");
                 });
 
             modelBuilder.Entity("Views.Models.Entities.ProductEntity", b =>
@@ -197,21 +215,6 @@ namespace Views.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("Views.Models.Entities.ProductsCategory", b =>
-                {
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductId", "CategoryId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("ProductsCategory");
                 });
 
             modelBuilder.Entity("Views.Models.Identity.AppUser", b =>
@@ -366,9 +369,9 @@ namespace Views.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Views.Models.Entities.ProductsCategory", b =>
+            modelBuilder.Entity("Views.Models.Entities.ProductCategoryMiddle", b =>
                 {
-                    b.HasOne("Views.Models.Entities.Category", "Category")
+                    b.HasOne("Views.Models.Entities.ProductCategory", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -396,7 +399,7 @@ namespace Views.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Views.Models.Entities.Category", b =>
+            modelBuilder.Entity("Views.Models.Entities.ProductCategory", b =>
                 {
                     b.Navigation("Products");
                 });

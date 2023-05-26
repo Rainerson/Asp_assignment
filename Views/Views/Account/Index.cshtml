@@ -3,5 +3,8 @@
 }
 
 <div>
-    ViewData["Title"]
+    @if (signInManager.IsSignedIn(User) && User.IsInRole("admin"))
+    {
+        <a class="link" asp-controller="Admin" asp-action="Index">Admin</a>
+    }
 </div>

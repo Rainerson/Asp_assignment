@@ -16,11 +16,16 @@ builder.Services.AddControllersWithViews(); // can use dependency injection
 
 builder.Services.AddDbContext<IdentityContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("Sql")));
 
-
+builder.Services.AddScoped<SeedService>();
 builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<AuthenticationService>();
-builder.Services.AddScoped<ProfileRepository>();
 builder.Services.AddScoped<ProfileService>();
+
+builder.Services.AddScoped<CategoryRepository>();
+builder.Services.AddScoped<ProfileRepository>();
+builder.Services.AddScoped<ProductCategoryRepository>();
+
 
 builder.Services.AddIdentity<AppUser, IdentityRole>(x =>
 {

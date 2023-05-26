@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Views.Models.Entities
@@ -27,5 +28,27 @@ namespace Views.Models.Entities
                 Rating = entity.Rating
             };
         }
+
+        public ICollection<ProductsCategory> Categories { get; set; } = new HashSet<ProductsCategory>();
+    }
+
+    public class Category
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
+
+        public ICollection<ProductsCategory> Products { get; set; } = new HashSet<ProductsCategory>();
+    }
+
+
+
+    [PrimaryKey(nameof(ProductId), nameof(CategoryId))]
+    public class ProductsCategory
+    {  
+        public int ProductId { get; set; }
+        public ProductEntity Product { get; set; } = null!;
+
+        public int CategoryId { get; set; } 
+        public Category Category { get; set; } = null!;
     }
 }

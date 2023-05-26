@@ -10,12 +10,16 @@ namespace Views.Services
         private readonly UserManager<AppUser> _userManager;
         private readonly ProfileService _profileService;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly SeedService _seedService;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AuthenticationService(UserManager<AppUser> userManager, ProfileService profileService, SignInManager<AppUser> signInManager)
+        public AuthenticationService(UserManager<AppUser> userManager, ProfileService profileService, SignInManager<AppUser> signInManager, SeedService seedService, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _profileService = profileService;
             _signInManager = signInManager;
+            _seedService = seedService;
+            _roleManager = roleManager;
         }
 
         public async Task<bool> UserAlreadyExistsAsync(RegisterViewModel2 registerViewModel2)
@@ -26,13 +30,26 @@ namespace Views.Services
 
         public async Task<bool> RegisterUserAsync(RegisterViewModel2 registerViewModel2)
         {
+            await _seedService.SeedRoles();
+            var roleName = "user";
+
+            if (!await _userManager.Users.AnyAsync())
+            {
+                roleName = "admin";
+            }
+;
             AppUser appUser = registerViewModel2;
             var result = await _userManager.CreateAsync(appUser, registerViewModel2.Password);
 
-            if(result.Succeeded)
+            await _userManager.AddToRoleAsync(appUser, roleName);
+            
+
+
+
+            if (result.Succeeded)
             {
                 var IdentityUserId = await _userManager.FindByEmailAsync(registerViewModel2.Email);
-                var profile = await _profileService.CreateAsync(IdentityUserId,registerViewModel2);
+                var profile = await _profileService.CreateAsync(IdentityUserId, registerViewModel2);
                 if(profile != null)
                 {
                     return true;
