@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using Views.Services;
 using Views.ViewModels;
 
@@ -31,7 +33,7 @@ namespace Views.Controllers
             return View(id);
         }
 
-
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> AddProduct()
         {
             ViewData["Title"] = "Add Products";

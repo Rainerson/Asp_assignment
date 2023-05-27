@@ -5,15 +5,33 @@
     var product = await productService.GetAsync(x => x.Id == Model);
 }
 
-<div>
-    @product.Id
-    @product.Name
-    @product.Description
-    @product.Price
-    @product.Rating
-    @foreach (var category in product.Categories)
-    {
-        @category.Category.Name
-    }
+<div class="productDetails">
+    <div class="container">
+        <div class="image">
+            <img src="\images\501x430.svg" alt="">
+        </div>
 
+        <div class="info">
+            <h3>@product.Name</h3>
+            @product.Description
+       
+        <div class="rating">
+            @{
+                int stars = @product.Rating;
+            }
+            @for (int i = 0; i <= stars; i++)
+            {
+                <i class="fa-solid fa-star" style="color: #ffea00;"></i>
+            }
+        </div>
+        <div class="price">
+        @product.Price
+        </div>
+        @foreach (var category in product.Categories)
+        {
+            @category.Category.Name
+        }
+        </div>
+    </div>
 </div>
+>

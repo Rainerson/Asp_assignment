@@ -5,17 +5,19 @@
 }
 
 
-
+<div class="container">
+<h3>Users and roles</h3>
 @foreach (var user in await userAdminService.GetUsersAsync())
 {
-    <div class="container">
-        <div>
-            @user.Email
+
+        <div class="users">
+            Email: @user.Email
             @foreach (var role in user.Roles)
             {
-                <div>@role</div>
+                <div>Role: @role</div>
             }
         </div>
-    </div>
+    
 }
 
+</div>

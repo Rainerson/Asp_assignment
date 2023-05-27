@@ -2,9 +2,17 @@
     ViewData["Title"] = User.Identity?.Name;
 }
 
-<div>
+<div class="container">
     @if (signInManager.IsSignedIn(User) && User.IsInRole("admin"))
     {
-        <a class="link" asp-controller="Admin" asp-action="Index">Admin</a>
+        <h1><a class="link" asp-controller="Admin" asp-action="Index">Users and Roles</a></h1>
+        <h1><a class="link" asp-controller="Products" asp-action="AddProduct">Add Product</a></h1>
     }
 </div>
+
+<style>
+    a {
+        text-decoration:none;
+        color: black;
+    }
+</style>

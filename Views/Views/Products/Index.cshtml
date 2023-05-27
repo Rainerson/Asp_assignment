@@ -5,20 +5,32 @@
     ViewData["Title"] = "Products";
 }
 
-@foreach (var product in await productService.GetAsync())
-{
-    <div>
-        <a asp-action="ProductDetails" asp-route-id="@product.Id">
-            @product.Name
-            @product.Description
-            @product.Price
-            @product.Rating
-            @foreach (var category in product.Categories)
-            {
-                @category.Category.Name
-            }
-        </a>
+
+
+<div class="products">
+    <div class="container">
+
+
+        @foreach (var product in await productService.GetAsync())
+        {
+            <div>
+                <a asp-action="ProductDetails" class="product-item" asp-route-id="@product.Id">
+                    <img src="images/270x295.svg" alt="">
+                    <div class="body">
+                        <div class="title">@product.Name</div>
+                        <div class="info">
+                            <div class="price">@product.Price kr</div>
+                            @foreach (var category in product.Categories)
+                            {
+                                @category.Category.Name
+                            }
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+
+
+
     </div>
-}
-
-
+</div>

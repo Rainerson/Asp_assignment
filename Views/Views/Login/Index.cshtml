@@ -3,7 +3,7 @@
 
 <div class="d-flex justify-content-center">
     <div class="login col-6">
-        @*<form asp-action="Index" method="post" novalidate asp-route-ReturnUrl ="@Model.ReturnUrl">*@
+        <h2>Log in to your account</h2>
         <form asp-action="Index" method="post" novalidate>
 
 
@@ -20,7 +20,7 @@
                 <small><span asp-validation-for="Password" class="text-danger"></span></small>
             </div>
 
-            <div class="form-checkbox-group">
+            <div class="form-checkbox-group mb-2">
                 <label class"="custom-checkbox">
                 <label asp-for="KeepLoggedIn"></label>
                 <input asp-for="KeepLoggedIn" />
@@ -28,9 +28,25 @@
                 </label>
             </div>
 
-            <button type="submit">Log In</button>
+            <button class="btn-theme" type="submit">LogIn</button>
         </form>
-        <h4>Not a member? Register here</h4>
-        <input type="button" value="Register" onclick="@("window.location.href='" + @Url.Action("Register", "Login") + "'");" />
+    
+
+        <a onclick="@("window.location.href='" + @Url.Action("Register", "Login") + "'");">Not a member? Register here</a>
+      
     </div>
+
 </div>
+
+<style>
+    .login {
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        padding: 30px;
+    }
+
+    a{
+        color: #fa3150;
+        text-decoration:none;
+    }
+
+</style>
