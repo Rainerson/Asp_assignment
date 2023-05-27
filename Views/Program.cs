@@ -21,10 +21,13 @@ builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<AuthenticationService>();
 builder.Services.AddScoped<ProfileService>();
+builder.Services.AddScoped<ContactFormService>();
+builder.Services.AddScoped<UserAdminService>();
 
 builder.Services.AddScoped<CategoryRepository>();
 builder.Services.AddScoped<ProfileRepository>();
 builder.Services.AddScoped<ProductCategoryRepository>();
+builder.Services.AddScoped<ProductRepository>();
 
 
 builder.Services.AddIdentity<AppUser, IdentityRole>(x =>

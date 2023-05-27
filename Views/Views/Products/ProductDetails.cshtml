@@ -1,0 +1,19 @@
+﻿@model int
+@inject ProductService productService
+
+@{
+    var product = await productService.GetAsync(x => x.Id == Model);
+}
+
+<div>
+    @product.Id
+    @product.Name
+    @product.Description
+    @product.Price
+    @product.Rating
+    @foreach (var category in product.Categories)
+    {
+        @category.Category.Name
+    }
+
+</div>

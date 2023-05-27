@@ -23,6 +23,15 @@ namespace Views.Controllers
             return View();
         }
 
+        public IActionResult ProductDetails(int id)
+        {
+            ViewData["Title"] = "Product Details";
+
+
+            return View(id);
+        }
+
+
         public async Task<IActionResult> AddProduct()
         {
             ViewData["Title"] = "Add Products";

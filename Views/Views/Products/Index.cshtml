@@ -1,19 +1,24 @@
-﻿@{
+﻿@inject ProductService productService
+
+@{
 
     ViewData["Title"] = "Products";
-
-    var products = await productService.GetAllAsync();
 }
 
-@if (products != null)
+@foreach (var product in await productService.GetAsync())
 {
-    foreach (var product in products)
-    {
-        <div>
+    <div>
+        <a asp-action="ProductDetails" asp-route-id="@product.Id">
             @product.Name
             @product.Description
             @product.Price
             @product.Rating
-        </div>
-    }
+            @foreach (var category in product.Categories)
+            {
+                @category.Category.Name
+            }
+        </a>
+    </div>
 }
+
+

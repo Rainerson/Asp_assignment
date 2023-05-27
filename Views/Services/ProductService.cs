@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using Views.Contexts;
 using Views.Models;
 using Views.Models.Entities;
@@ -56,5 +56,20 @@ namespace Views.Services
 
             return products;
         }
+
+        public async Task<IEnumerable<ProductEntity>> GetAsync()
+        {
+            var products = await _context.Products.Include(x => x.Categories).ThenInclude(x => x.Category).ToListAsync();
+            return products;
+        }
+
+        public async Task<ProductEntity> GetAsync(Expression<Func<ProductEntity, bool>> expression)
+        {
+            var product = await _context.Products.Include(x => x.Categories).ThenInclude(x => x.Category).FirstOrDefaultAsync(expression);
+            return product!;
+
+        }
+
+
     }
 }

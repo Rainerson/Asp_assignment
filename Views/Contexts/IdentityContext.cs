@@ -19,6 +19,7 @@ namespace Views.Contexts
         public DbSet<Category> Category { get; set; }
         public DbSet<ProductsCategory> ProductsCategory { get; set; }
         public DbSet<ProfileData> Profiles { get; set; }
+        public DbSet<ContactFormEntity> ContactForm { get; set; }
 
     }
 }
